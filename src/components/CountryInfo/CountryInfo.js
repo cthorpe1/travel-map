@@ -19,6 +19,9 @@ const CountryInfo = props => {
         <strong>Description</strong>:
       </p>
       <p>{props.data.desc}</p>
+      <div className={classes.CitiesContainer}>
+        <button>Add City</button>
+      </div>
     </div>
   );
 };

@@ -1,0 +1,21 @@
+.Page {
+    margin: 12px;
+}
+
+.TripsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 8px;
+    padding: 5px;
+}
+
+.Trip {
+    border: 1px solid black;
+    text-align: center;
+    padding: 5px;
+}
+
+.TripControls {
+    display: flex;
+    justify-content: space-between;
+}

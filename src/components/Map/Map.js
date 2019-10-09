@@ -6,7 +6,7 @@ import Sidebar from "../SideBar/SideBar";
 import CountryInfo from "../CountryInfo/CountryInfo";
 import countries from "../../countries.json";
 import classes from "./Map.module.css";
-const MapContainer = () => {
+const MapContainer = props => {
   //Default Map Values and Constants
   const DEFAULT_MAP_CENTER = {
     lat: "42.452416",
@@ -17,7 +17,7 @@ const MapContainer = () => {
   //Component State
   const [map, setMap] = useState();
   const [sideDrawerContent, setSideDrawerContent] = useState(null);
-  const [markers, setMarkers] = useState([]);
+  // const [markers, setMarkers] = useState([]);
   let mapInstance;
   //Handlers
   const handleMarkerClick = e => {
@@ -54,25 +54,25 @@ const MapContainer = () => {
       markersRef.forEach(marker => {
         markerList.push(marker.data());
       });
-      setMarkers(prev => markerList);
+      props.setMarkers(prev => markerList);
     };
     getMarkers();
-  }, [markers]);
+  }, [props.markers]);
 
   return (
     <div className={classes.MapContainer}>
       <Sidebar
         content={sideDrawerContent}
         setSideDrawerContent={setSideDrawerContent}
-        markers={markers}
-        setMarkers={setMarkers}
+        markers={props.markers}
+        setMarkers={props.setMarkers}
         resetZoom={resetZoomOnSidebarClose}
       />
       <Map
         center={DEFAULT_MAP_CENTER}
         zoom={DEFAULT_ZOOM}
         minZoom={DEFAULT_ZOOM}
-        zoomSnap={0.5}
+        zoomSnap={1}
         wheelPxPerZoomLevel={80}
         zoomDelta={0.5}
         className={classes.Map}
@@ -82,7 +82,7 @@ const MapContainer = () => {
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors: Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>'
           url={MAPBOX_URL}
         />
-        {markers.map((marker, i) => {
+        {props.markers.map((marker, i) => {
           return (
             <Marker
               key={i}

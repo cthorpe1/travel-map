@@ -7,11 +7,15 @@ To Dos:
 [x] Clicking a marker zooms to country
 [x] Zooming to a country opens side drawer
 [x] Store markers in DB
-[]  Can view page listing all Markers that have been dropped
+[x]  Can view page listing all Markers that have been dropped
     [] Clicking on a listing on Marker page displays details of that Marker
     [] CRUD functionality for Marker views (delete, edit)
-[] Country specific markers are shown
-
+[] City specific markers are shown
+    [] Need button in sidebar to add city marker
+    [] Clicking on city marker adjusts zoom + 2(1?)
+    [] Clicking city marker empties sidebar
+    [] Clicking city marker shows CRUD (ex. add category)
+    [] Clicking city marker loads gallery thumbnails (by catgegory)
 Stretch Goals:
 [] Gallery view organized by country
 [] User profiles
