@@ -26,6 +26,11 @@ const NavigationBar = props => {
                 Home
               </NavLink>
             </NavItem>
+            <NavItem>
+              <NavLink tag={RouterLink} to="/trips">
+                My Trips
+              </NavLink>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Map, TileLayer, Marker } from "react-leaflet";
+import { getMarkersFromDB } from "../../helpers/helpers";
 import LocationIcon from "../LocationIcon/LocationIcon";
 import Sidebar from "../SideBar/SideBar";
 import CountryInfo from "../CountryInfo/CountryInfo";
 import countries from "../../countries.json";
 import classes from "./Map.module.css";
 const MapContainer = () => {
-  //Default Map Values
+  //Default Map Values and Constants
   const DEFAULT_MAP_CENTER = {
     lat: "42.452416",
     lng: "-30.035798"
@@ -18,13 +19,16 @@ const MapContainer = () => {
   const [sideDrawerContent, setSideDrawerContent] = useState(null);
   const [markers, setMarkers] = useState([]);
   let mapInstance;
-
   //Handlers
-  const handleClick = e => {
+  const handleMarkerClick = e => {
     let filteredCountry = countries.filter(country => {
-      return country.name.common === e.target.options.data;
+      return (
+        country.latlng[0] === e.target._latlng.lat &&
+        country.latlng[1] === e.target._latlng.lng
+      );
     });
     const countryInfo = filteredCountry[0];
+
     const boundsData = countryInfo.bounds;
     if (boundsData.length === 0) {
       map.flyTo(countryInfo.latlng, 7);
@@ -40,9 +44,21 @@ const MapContainer = () => {
   const resetZoomOnSidebarClose = () => {
     map.flyTo(DEFAULT_MAP_CENTER, DEFAULT_ZOOM);
   };
+
+  //Effect to set map reference and populate country marker on component mount
   useEffect(() => {
     setMap(mapInstance.leafletElement);
-  }, []);
+    const getMarkers = async () => {
+      let markersRef = await getMarkersFromDB();
+      let markerList = [];
+      markersRef.forEach(marker => {
+        markerList.push(marker.data());
+      });
+      setMarkers(prev => markerList);
+    };
+    getMarkers();
+  }, [markers]);
+
   return (
     <div className={classes.MapContainer}>
       <Sidebar
@@ -72,8 +88,7 @@ const MapContainer = () => {
               key={i}
               position={marker.coords}
               icon={LocationIcon}
-              onClick={e => handleClick(e)}
-              data={marker.name}
+              onClick={handleMarkerClick}
             ></Marker>
           );
         })}

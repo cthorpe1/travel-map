@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import { addMarkerToDB } from "../../helpers/helpers";
 import countries from "../../countries.json";
 import classes from "./CreateTrip.module.css";
 const CreateTrip = props => {
@@ -11,13 +12,17 @@ const CreateTrip = props => {
     let countryToAdd = countries.filter(country => {
       return country.name.common === selectedCountry;
     })[0];
-    props.setMarkers(prevMarkers => [
-      ...prevMarkers,
-      {
-        name: countryToAdd.name.common,
-        coords: { lat: countryToAdd.latlng[0], lng: countryToAdd.latlng[1] }
-      }
-    ]);
+    // props.setMarkers(prevMarkers => [
+    //   ...prevMarkers,
+    //   {
+    //     name: countryToAdd.name.common,
+    //     coords: { lat: countryToAdd.latlng[0], lng: countryToAdd.latlng[1] }
+    //   }
+    // ]);
+    addMarkerToDB({
+      name: countryToAdd.name.common,
+      coords: { lat: countryToAdd.latlng[0], lng: countryToAdd.latlng[1] }
+    });
   };
   const handleChange = e => {
     setSelectedCountry(e.target.value);

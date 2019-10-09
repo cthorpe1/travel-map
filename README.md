@@ -6,7 +6,10 @@ To Dos:
 [x] Add a marker to country
 [x] Clicking a marker zooms to country
 [x] Zooming to a country opens side drawer
-[] Store markers in DB
+[x] Store markers in DB
+[]  Can view page listing all Markers that have been dropped
+    [] Clicking on a listing on Marker page displays details of that Marker
+    [] CRUD functionality for Marker views (delete, edit)
 [] Country specific markers are shown
 
 Stretch Goals:
