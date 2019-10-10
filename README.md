@@ -16,6 +16,7 @@ To Dos:
     [] Clicking city marker empties sidebar
     [] Clicking city marker shows CRUD (ex. add category)
     [] Clicking city marker loads gallery thumbnails (by catgegory)
+[x] Authentication
 Stretch Goals:
 [] Gallery view organized by country
 [] User profiles

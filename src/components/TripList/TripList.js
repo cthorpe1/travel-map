@@ -1,11 +1,6 @@
 import React from "react";
-import { getMarkersFromDB } from "../../helpers/helpers";
 import classes from "./TripList.module.css";
 const TripList = props => {
-    // let trips = [];
-    // if (props.markers.length === 0) {
-    //     let tripRef = await getMarkersFromDB();
-    // }
   return (
     <div className={classes.Page}>
       <h1>Your Trips</h1>

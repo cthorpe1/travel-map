@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Map, TileLayer, Marker } from "react-leaflet";
-import { getMarkersFromDB } from "../../helpers/helpers";
-import LocationIcon from "../LocationIcon/LocationIcon";
+import { Map, TileLayer } from "react-leaflet";
 import Sidebar from "../SideBar/SideBar";
 import CountryInfo from "../CountryInfo/CountryInfo";
 import countries from "../../countries.json";
 import classes from "./Map.module.css";
+import MarkerList from "../Map/MarkerList/MarkerList";
 const MapContainer = props => {
   //Default Map Values and Constants
   const DEFAULT_MAP_CENTER = {
@@ -17,7 +16,6 @@ const MapContainer = props => {
   //Component State
   const [map, setMap] = useState();
   const [sideDrawerContent, setSideDrawerContent] = useState(null);
-  // const [markers, setMarkers] = useState([]);
   let mapInstance;
   //Handlers
   const handleMarkerClick = e => {
@@ -28,7 +26,6 @@ const MapContainer = props => {
       );
     });
     const countryInfo = filteredCountry[0];
-
     const boundsData = countryInfo.bounds;
     if (boundsData.length === 0) {
       map.flyTo(countryInfo.latlng, 7);
@@ -45,19 +42,11 @@ const MapContainer = props => {
     map.flyTo(DEFAULT_MAP_CENTER, DEFAULT_ZOOM);
   };
 
-  //Effect to set map reference and populate country marker on component mount
+  // Effect to set map reference and populate country marker on component mount
   useEffect(() => {
+    console.log("firing");
     setMap(mapInstance.leafletElement);
-    const getMarkers = async () => {
-      let markersRef = await getMarkersFromDB();
-      let markerList = [];
-      markersRef.forEach(marker => {
-        markerList.push(marker.data());
-      });
-      props.setMarkers(prev => markerList);
-    };
-    getMarkers();
-  }, [props.markers]);
+  }, []);
 
   return (
     <div className={classes.MapContainer}>
@@ -82,16 +71,7 @@ const MapContainer = props => {
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors: Icons made by <a href="https://www.flaticon.com/authors/smashicons" title="Smashicons">Smashicons</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>'
           url={MAPBOX_URL}
         />
-        {props.markers.map((marker, i) => {
-          return (
-            <Marker
-              key={i}
-              position={marker.coords}
-              icon={LocationIcon}
-              onClick={handleMarkerClick}
-            ></Marker>
-          );
-        })}
+        <MarkerList handleMarkerClick={handleMarkerClick} />
       </Map>
     </div>
   );

@@ -1,0 +1,48 @@
+.LoginContainer {
+  margin: 8% auto;
+  height: 270px;
+  width: 400px;
+  border: 1px solid black;
+  padding: 0 25px 75px 25px;
+  box-shadow: 1px 2px #888888;
+  border-radius: 5px;
+}
+
+.LoginContainer h2 {
+  text-align: center;
+}
+
+.LoginContainer form {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.LoginContainer button {
+  padding: 10px 15px;
+  cursor: pointer;
+  background-color: #0d86b1;
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  margin-top: 8px;
+}
+
+.Group {
+  display: flex;
+  flex-direction: column;
+}
+
+.Group label {
+  margin-bottom: 8px;
+}
+
+.Group input {
+  padding: 10px;
+  box-sizing: border-box;
+  font-size: 18px;
+  border-radius: 5px;
+}
+

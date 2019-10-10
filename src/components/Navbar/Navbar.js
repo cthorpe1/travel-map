@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Collapse,
   Navbar,
@@ -9,11 +9,18 @@ import {
   NavLink
 } from "reactstrap";
 import { Link as RouterLink } from "react-router-dom";
+import { AuthContext } from "../../Auth";
+import * as firebase from "firebase/app";
+import "firebase/auth";
 const NavigationBar = props => {
   const [collapsed, setCollapsed] = useState(false);
   const toggleNavbar = () => {
     setCollapsed(c => !c);
   };
+  const logout = () => {
+    firebase.auth().signOut();
+  };
+  const { currentUser } = useContext(AuthContext);
   return (
     <div>
       <Navbar color="light" light expand="md">
@@ -31,6 +38,11 @@ const NavigationBar = props => {
                 My Trips
               </NavLink>
             </NavItem>
+            {currentUser ? (
+              <NavItem>
+                <NavLink  tag={RouterLink} to="" onClick={logout}>Logout</NavLink>
+              </NavItem>
+            ) : null}
           </Nav>
         </Collapse>
       </Navbar>
