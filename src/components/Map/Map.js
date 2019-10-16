@@ -16,6 +16,7 @@ const MapContainer = props => {
   //Component State
   const [map, setMap] = useState();
   const [sideDrawerContent, setSideDrawerContent] = useState(null);
+  const [userInfo, setUserInfo] = useState(null);
   let mapInstance;
   //Handlers
   const handleMarkerClick = e => {
@@ -36,7 +37,14 @@ const MapContainer = props => {
       ];
       map.flyToBounds(bounds);
     }
-    setSideDrawerContent(<CountryInfo data={countryInfo} />);
+    setSideDrawerContent(
+      <CountryInfo
+        data={countryInfo}
+        userInfo={userInfo}
+        setUserInfo={setUserInfo}
+        setSideDrawerContent={setSideDrawerContent}
+      />
+    );
   };
   const resetZoomOnSidebarClose = () => {
     map.flyTo(DEFAULT_MAP_CENTER, DEFAULT_ZOOM);

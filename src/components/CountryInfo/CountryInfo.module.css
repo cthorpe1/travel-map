@@ -1,3 +1,7 @@
+.InfoContainer {
+    width: 100%;
+}
+
 .RegionInfo {
     display: flex;
     justify-content: space-between;

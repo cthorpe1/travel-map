@@ -11,7 +11,9 @@ To Dos:
     [] Clicking on a listing on Marker page displays details of that Marker
     [] CRUD functionality for Marker views (delete, edit)
 [] City specific markers are shown
-    [] Need button in sidebar to add city marker
+    [x] Need button in sidebar to add city marker
+        Steps to add city marker:
+    [] CURRENT ISSUE: GO BACK LINK IN COUNTRYINFO. HOW TO MAKE REF TO LAST SELECTED COUNTRY?
     [] Clicking on city marker adjusts zoom + 2(1?)
     [] Clicking city marker empties sidebar
     [] Clicking city marker shows CRUD (ex. add category)
