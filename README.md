@@ -3,7 +3,7 @@ To Dos:
 REFACTOR FOR REDUX:
 [x] Folder Structure (actions/store/reducers)
 [x] Map initialization and default map position/zoom converted to redux
-[]  Move countries.json into firestore
+[x]  Move countries.json into firestore
 []  Convert Sidedrawer to redux. move logic and props for side drawer out of Map
 []  Redo authentication
 

@@ -1,6 +1,6 @@
 import * as firebase from "firebase/app";
 import "firebase/firebase-firestore";
-
+import countries from "../countries.json";
 
 export async function getMarkersFromDB() {
   return firebase
@@ -29,3 +29,31 @@ export async function addMarkerToDB(marker) {
     }
   });
 }
+
+export async function findCountryByCoords(coords) {
+  return firebase
+    .firestore()
+    .collection("countries")
+    .where("latlng", "==", coords)
+    .get();
+}
+//Used to push country data in JSON file up into Firestore Collection
+// export function convertCountries() {
+//   countries.map(country => {
+//     return firebase
+//       .firestore()
+//       .collection("countries")
+//       .add({
+//         name: country.name,
+//         currencies: country.currencies,
+//         capital: country.capital,
+//         altSpellings: country.altSpellings,
+//         region: country.region,
+//         subregion: country.subregion,
+//         languages: country.languages,
+//         latlng: country.latlng,
+//         desc: country.desc,
+//         bounds: country.bounds
+//       });
+//   });
+// }

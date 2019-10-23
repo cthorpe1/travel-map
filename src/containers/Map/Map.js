@@ -3,39 +3,39 @@ import { connect } from "react-redux";
 import { Map, TileLayer } from "react-leaflet";
 import Sidebar from "../../components/SideBar/SideBar";
 import CountryInfo from "../../components/CountryInfo/CountryInfo";
-import countries from "../../countries.json";
-import classes from "./Map.module.css";
 import MarkerList from "./MarkerList/MarkerList";
+import { findCountryByCoords } from "../../helpers/helpers";
+import classes from "./Map.module.css";
+
 const MapContainer = props => {
   const MAPBOX_URL = `https://api.mapbox.com/styles/v1/cthorpe4/ck18dwcl84w1l1dqturfu8dfw/tiles/256/{z}/{x}/{y}?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`;
   //Component State
   const [sideDrawerContent, setSideDrawerContent] = useState(null);
   let mapInstance;
   //Handlers
-  const handleMarkerClick = e => {
-    let filteredCountry = countries.filter(country => {
-      return (
-        country.latlng[0] === e.target._latlng.lat &&
-        country.latlng[1] === e.target._latlng.lng
-      );
-    });
-    const countryInfo = filteredCountry[0];
-    const boundsData = countryInfo.bounds;
-    if (boundsData.length === 0) {
-      props.mapState.map.flyTo(countryInfo.latlng, 7);
-    } else {
-      const bounds = [
-        [boundsData[1], boundsData[0]],
-        [boundsData[3], boundsData[2]]
-      ];
-      props.mapState.map.flyToBounds(bounds);
-    }
-    setSideDrawerContent(
-      <CountryInfo
-        data={countryInfo}
-        setSideDrawerContent={setSideDrawerContent}
-      />
-    );
+  const handleMarkerClick = async e => {
+    let clickedCountryCoords = Object.values(e.target._latlng);
+    let foundCountry;
+    findCountryByCoords(clickedCountryCoords)
+      .then(snap => {
+        snap.forEach(doc => (foundCountry = doc.data()));
+      })
+      .then(() => {
+        if (foundCountry.bounds.length === 0) {
+          props.mapState.map.flyTo(foundCountry.latlng, 7);
+        } else {
+          props.mapState.map.flyToBounds([
+            [foundCountry.bounds[1], foundCountry.bounds[0]],
+            [foundCountry.bounds[3], foundCountry.bounds[2]]
+          ]);
+        }
+        setSideDrawerContent(
+          <CountryInfo
+            data={foundCountry}
+            setSideDrawerContent={setSideDrawerContent}
+          />
+        );
+      });
   };
   const resetZoomOnSidebarClose = () => {
     props.mapState.map.flyTo(props.mapState.position, props.mapState.zoom);
