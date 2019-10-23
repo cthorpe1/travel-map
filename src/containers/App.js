@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { AuthProvider } from "./Auth";
+import { AuthProvider } from "../Auth";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import Login from "./components/Login/Login";
-import Navbar from "./components/Navbar/Navbar";
-import MapContainer from "./components/Map/Map";
-import TripList from "./components/TripList/TripList";
-import classes from "./App.module.css";
+import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
+import Login from "../components/Login/Login";
+import Navbar from "../components/Navbar/Navbar";
+import MapContainer from "./Map/Map";
 
 function App() {
   const [markers, setMarkers] = useState([]);
@@ -14,7 +12,7 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <div className={classes.App}>
+        <div>
           <Navbar />
           <Switch>
             <PrivateRoute
@@ -25,12 +23,7 @@ function App() {
               setMarkers={setMarkers}
             />
             )} />
-            <PrivateRoute
-              exact
-              path="/trips"
-              component={TripList}
-              markers={markers}
-            />
+
             />
             <Route path="/login" render={() => <Login />} />
           </Switch>

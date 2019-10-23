@@ -1,0 +1,2 @@
+export const GET_MAP_POSITION = "GET_MAP_POSITION";
+export const SET_MAP_POSITION = "SET_MAP_POSITION";

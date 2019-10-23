@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { Map, TileLayer } from "react-leaflet";
-import Sidebar from "../SideBar/SideBar";
-import CountryInfo from "../CountryInfo/CountryInfo";
+import Sidebar from "../../components/SideBar/SideBar";
+import CountryInfo from "../../components/CountryInfo/CountryInfo";
 import countries from "../../countries.json";
 import classes from "./Map.module.css";
-import MarkerList from "../Map/MarkerList/MarkerList";
+import MarkerList from "./MarkerList/MarkerList";
 const MapContainer = props => {
-  //Default Map Values and Constants
-  const DEFAULT_MAP_CENTER = {
-    lat: "42.452416",
-    lng: "-30.035798"
-  };
-  const DEFAULT_ZOOM = 3;
   const MAPBOX_URL = `https://api.mapbox.com/styles/v1/cthorpe4/ck18dwcl84w1l1dqturfu8dfw/tiles/256/{z}/{x}/{y}?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`;
   //Component State
-  const [map, setMap] = useState();
   const [sideDrawerContent, setSideDrawerContent] = useState(null);
-  const [userInfo, setUserInfo] = useState(null);
   let mapInstance;
   //Handlers
   const handleMarkerClick = e => {
@@ -29,31 +22,29 @@ const MapContainer = props => {
     const countryInfo = filteredCountry[0];
     const boundsData = countryInfo.bounds;
     if (boundsData.length === 0) {
-      map.flyTo(countryInfo.latlng, 7);
+      props.mapState.map.flyTo(countryInfo.latlng, 7);
     } else {
       const bounds = [
         [boundsData[1], boundsData[0]],
         [boundsData[3], boundsData[2]]
       ];
-      map.flyToBounds(bounds);
+      props.mapState.map.flyToBounds(bounds);
     }
     setSideDrawerContent(
       <CountryInfo
         data={countryInfo}
-        userInfo={userInfo}
-        setUserInfo={setUserInfo}
         setSideDrawerContent={setSideDrawerContent}
       />
     );
   };
   const resetZoomOnSidebarClose = () => {
-    map.flyTo(DEFAULT_MAP_CENTER, DEFAULT_ZOOM);
+    props.mapState.map.flyTo(props.mapState.position, props.mapState.zoom);
   };
 
-  // Effect to set map reference and populate country marker on component mount
+  // Effect to set map reference on component mount
   useEffect(() => {
     console.log("firing");
-    setMap(mapInstance.leafletElement);
+    props.initMap(mapInstance);
   }, []);
 
   return (
@@ -66,9 +57,9 @@ const MapContainer = props => {
         resetZoom={resetZoomOnSidebarClose}
       />
       <Map
-        center={DEFAULT_MAP_CENTER}
-        zoom={DEFAULT_ZOOM}
-        minZoom={DEFAULT_ZOOM}
+        center={props.mapState.position}
+        zoom={props.mapState.zoom}
+        minZoom={3}
         zoomSnap={1}
         wheelPxPerZoomLevel={80}
         zoomDelta={0.5}
@@ -85,4 +76,24 @@ const MapContainer = props => {
   );
 };
 
-export default MapContainer;
+const mapStateToProps = state => {
+  return {
+    mapState: state.mapReducer
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    initMap: mapInstance => {
+      dispatch({
+        type: "INIT_MAP",
+        payload: mapInstance.leafletElement
+      });
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MapContainer);

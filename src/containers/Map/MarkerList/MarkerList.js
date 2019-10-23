@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Marker } from "react-leaflet";
 import * as firebase from "firebase/app";
 import "firebase/firebase-firestore";
-import LocationIcon from "../../LocationIcon/LocationIcon";
+import LocationIcon from "../../../components/LocationIcon/LocationIcon";
 
 const useFirestoreQuery = ref => {
   const [docState, setDocState] = useState({
