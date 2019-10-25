@@ -1,43 +1,78 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import {
+  openSidebar,
+  closeSidebar,
+  setActiveMarker
+} from "../../actions/index";
 import { Sidebar, Tab } from "react-leaflet-sidebarv2";
+import CountryInfo from "../CountryInfo/CountryInfo";
 import CreateTrip from "../CreateTrip/CreateTrip";
 const SideBar = props => {
-  const [collapsed, setCollapsed] = useState(true);
-  const [selected, setSelected] = useState("home");
   const onClose = () => {
-    setCollapsed(true);
-    props.setSideDrawerContent(null);
-    props.resetZoom();
+    resetZoomOnSidebarClose();
+    props.closeSidebar();
+    props.clearActiveMarker();
   };
   const onOpen = id => {
-    setCollapsed(false);
-    setSelected(id);
+    props.openSidebar(id);
+  };
+  const resetZoomOnSidebarClose = () => {
+    props.mapState.map.flyTo(props.mapState.position, props.mapState.zoom);
   };
 
   useEffect(() => {
-    if (props.content !== null) {
-      setCollapsed(false);
-      setSelected("home");
+    if (props.activeMarker) {
+      props.openSidebar("activeMarker");
     }
-  },[setCollapsed, props.content]);
+  }, [props.activeMarker]);
   return (
     <Sidebar
       id="sidebar"
-      collapsed={collapsed}
-      selected={selected}
+      collapsed={props.sidebarState.isCollapsed}
+      selected={props.sidebarState.selectedTab}
       onOpen={onOpen}
       onClose={onClose}
       closeIcon="fa fa-times"
       position="right"
     >
       <Tab id="home" header="Travel Map Menu" icon="fa fa-home">
-        {props.content}
+        {/* //List All Trips */}
+        {/* {props.content} */}
       </Tab>
-      <Tab id="settings" header="Drop Pin" icon="fa fa-plus">
+      <Tab id="activeMarker" header="Current Trip" icon="fa fa-map">
+        <CountryInfo markerId={props.activeMarker} />
+      </Tab>
+      <Tab id="addMarker" header="Drop Pin" icon="fa fa-plus">
         <CreateTrip markers={props.markers} setMarkers={props.setMarkers} />
       </Tab>
     </Sidebar>
   );
 };
 
-export default SideBar;
+const mapStateToProps = state => {
+  return {
+    sidebarState: state.sidebarReducer,
+    activeMarker: state.markersReducer.activeMarker,
+    mapState: state.mapReducer
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    openSidebar: selectedTab => {
+      dispatch(openSidebar(selectedTab));
+    },
+    closeSidebar: () => {
+      dispatch(closeSidebar());
+    },
+    clearActiveMarker: () => {
+      dispatch(setActiveMarker(null));
+    }
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SideBar);

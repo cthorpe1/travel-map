@@ -1,2 +1,9 @@
-export const GET_MAP_POSITION = "GET_MAP_POSITION";
-export const SET_MAP_POSITION = "SET_MAP_POSITION";
+//Map
+export const INIT_MAP = "INIT_MAP";
+
+//Sidebar
+export const OPEN_SIDEBAR = "OPEN_SIDEBAR";
+export const CLOSE_SIDEBAR = "CLOSE_SIDEBAR";
+
+//Markers
+export const SET_ACTIVE_MARKER = "SET_ACTIVE_MARKER";

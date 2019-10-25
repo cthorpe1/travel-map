@@ -1,6 +1,32 @@
-import {SET_MAP_POSITION} from "./constants/action-types";
+import * as constants from "./constants/action-types";
 
-export const setMapPosition = newPos => ({
-    type: SET_MAP_POSITION,
-    payload: newPos
-});
+//MAP ACTIONS
+export function initMap(mapInstance) {
+  return {
+    type: constants.INIT_MAP,
+    payload: mapInstance.leafletElement
+  };
+}
+
+//SIDEBAR ACTIONS
+export function openSidebar(selectedTab) {
+  return {
+    type: constants.OPEN_SIDEBAR,
+    payload: selectedTab
+  };
+}
+
+export function closeSidebar() {
+  return {
+    type: constants.CLOSE_SIDEBAR,
+    payload: null
+  };
+}
+
+//MARKER ACTIONS
+export function setActiveMarker(markerId) {
+  return {
+    type: constants.SET_ACTIVE_MARKER,
+    payload: markerId
+  };
+}

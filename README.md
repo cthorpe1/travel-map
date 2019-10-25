@@ -4,7 +4,8 @@ REFACTOR FOR REDUX:
 [x] Folder Structure (actions/store/reducers)
 [x] Map initialization and default map position/zoom converted to redux
 [x]  Move countries.json into firestore
-[]  Convert Sidedrawer to redux. move logic and props for side drawer out of Map
+[x]  Convert Sidedrawer to redux. move logic and props for side drawer out of Map
+[]  when createTrip, store reference to country in marker db entry
 []  Redo authentication
 
 

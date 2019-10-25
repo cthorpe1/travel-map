@@ -1,6 +1,5 @@
 import * as firebase from "firebase/app";
 import "firebase/firebase-firestore";
-import countries from "../countries.json";
 
 export async function getMarkersFromDB() {
   return firebase
@@ -35,6 +34,14 @@ export async function findCountryByCoords(coords) {
     .firestore()
     .collection("countries")
     .where("latlng", "==", coords)
+    .get();
+}
+
+export async function findCountryById(id) {
+  return firebase
+    .firestore()
+    .collection("countries")
+    .doc(id)
     .get();
 }
 //Used to push country data in JSON file up into Firestore Collection
