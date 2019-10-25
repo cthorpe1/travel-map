@@ -19,10 +19,18 @@ export async function getMarkerFromDB(name) {
 export async function addMarkerToDB(marker) {
   return getMarkerFromDB(marker.name).then(snap => {
     if (snap.empty) {
+      let newData;
       return firebase
         .firestore()
-        .collection("markers")
-        .add(marker);
+        .collection("countries")
+        .where("name.common", "==", marker.name)
+        .get()
+        .then(doc => {
+          newData = doc.data();
+        })
+        .then(() => {
+          console.log(newData);
+        });
     } else {
       return "You already have a marker there";
     }
