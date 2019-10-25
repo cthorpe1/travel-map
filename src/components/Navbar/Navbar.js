@@ -33,14 +33,11 @@ const NavigationBar = props => {
                 Home
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink tag={RouterLink} to="/trips">
-                My Trips
-              </NavLink>
-            </NavItem>
             {currentUser ? (
               <NavItem>
-                <NavLink  tag={RouterLink} to="" onClick={logout}>Logout</NavLink>
+                <NavLink tag={RouterLink} to="" onClick={logout}>
+                  Logout
+                </NavLink>
               </NavItem>
             ) : null}
           </Nav>

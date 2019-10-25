@@ -28,12 +28,12 @@ const MarkerList = props => {
   const ref = firebase.firestore().collection("markers");
   const { isLoading, data } = useFirestoreQuery(ref);
 
-  const handleMarkerClick = (e, markerId) => {
+  const handleMarkerClick = (e, countryRef) => {
     const position = Object.values(e.latlng);
     let foundCountry;
     findCountryByCoords(position)
       .then(snap => {
-        snap.forEach(doc => (foundCountry = doc.data()));
+        foundCountry = snap.docs[0].data();
       })
       .then(() => {
         if (foundCountry.bounds.length === 0) {
@@ -44,7 +44,7 @@ const MarkerList = props => {
             [foundCountry.bounds[3], foundCountry.bounds[2]]
           ]);
         }
-        props.setActiveMarker(markerId);
+        props.setActiveMarker(countryRef);
       });
   };
 
@@ -55,13 +55,12 @@ const MarkerList = props => {
         <ul>
           {data.docs.map((doc, i) => {
             let marker = doc.data();
-            marker.id = doc.id;
             return (
               <Marker
                 key={i}
                 position={marker.coords}
                 icon={LocationIcon}
-                onClick={e => handleMarkerClick(e, marker.id)}
+                onClick={e => handleMarkerClick(e, marker.countryRef)}
               />
             );
           })}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { AuthProvider } from "../Auth";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
@@ -7,24 +7,14 @@ import Navbar from "../components/Navbar/Navbar";
 import MapContainer from "./Map/Map";
 
 function App() {
-  const [markers, setMarkers] = useState([]);
-
   return (
     <AuthProvider>
       <BrowserRouter>
         <div>
           <Navbar />
           <Switch>
-            <PrivateRoute
-              exact
-              path="/"
-              component={MapContainer}
-              markers={markers}
-              setMarkers={setMarkers}
-            />
-            )} />
-
-            />
+            <PrivateRoute exact path="/" component={MapContainer} />
+            )} /> />
             <Route path="/login" render={() => <Login />} />
           </Switch>
         </div>

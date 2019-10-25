@@ -41,7 +41,7 @@ const SideBar = props => {
         {/* {props.content} */}
       </Tab>
       <Tab id="activeMarker" header="Current Trip" icon="fa fa-map">
-        <CountryInfo markerId={props.activeMarker} />
+        {/* <CountryInfo country={props.activeMarker} /> */}
       </Tab>
       <Tab id="addMarker" header="Drop Pin" icon="fa fa-plus">
         <CreateTrip markers={props.markers} setMarkers={props.setMarkers} />
