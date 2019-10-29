@@ -44,6 +44,14 @@ export async function findCountryById(id) {
     .doc(id)
     .get();
 }
+
+export async function findCountryByName(name) {
+  return firebase
+    .firestore()
+    .collection("countries")
+    .where("name.common", "==", name)
+    .get();
+}
 //Used to push country data in JSON file up into Firestore Collection
 // export function convertCountries() {
 //   countries.map(country => {

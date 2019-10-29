@@ -38,13 +38,12 @@ const SideBar = props => {
     >
       <Tab id="home" header="Travel Map Menu" icon="fa fa-home">
         {/* //List All Trips */}
-        {/* {props.content} */}
       </Tab>
       <Tab id="activeMarker" header="Current Trip" icon="fa fa-map">
-        <CountryInfo markerId={props.activeMarker} />
+        <CountryInfo countryRef={props.activeMarker} />
       </Tab>
       <Tab id="addMarker" header="Drop Pin" icon="fa fa-plus">
-        <CreateTrip markers={props.markers} setMarkers={props.setMarkers} />
+        <CreateTrip />
       </Tab>
     </Sidebar>
   );

@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { addMarkerToDB } from "../../helpers/helpers";
+import { addMarkerToDB, findCountryByName } from "../../helpers/helpers";
 import countries from "../../countries.json";
 import classes from "./CreateTrip.module.css";
-const CreateTrip = props => {
+const CreateTrip = () => {
   const [selectedCountry, setSelectedCountry] = useState(
     countries[0].name.common
   );
   const addCountry = e => {
     e.preventDefault();
-    let countryToAdd = countries.filter(country => {
-      return country.name.common === selectedCountry;
-    })[0];
-    addMarkerToDB({
-      name: countryToAdd.name.common,
-      coords: { lat: countryToAdd.latlng[0], lng: countryToAdd.latlng[1] }
+    let countryToAdd;
+    findCountryByName(selectedCountry).then(snap => {
+      if (snap.empty) {
+        alert("That country does not exist");
+      } else {
+        countryToAdd = snap.docs[0].data();
+        addMarkerToDB({
+          name: countryToAdd.name.common,
+          coords: { lat: countryToAdd.latlng[0], lng: countryToAdd.latlng[1] },
+          countryRef: snap.docs[0].id
+        });
+      }
     });
   };
   const handleChange = e => {

@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { initMap } from "../../actions/index";
 import { Map, TileLayer } from "react-leaflet";
 import Sidebar from "../../components/SideBar/SideBar";
-import MarkerList from "./MarkerList/MarkerList";
+import MarkerList from "../MarkerList/MarkerList";
 import classes from "./Map.module.css";
 
 const MapContainer = props => {
@@ -19,7 +19,7 @@ const MapContainer = props => {
 
   return (
     <div className={classes.MapContainer}>
-      <Sidebar markers={props.markers} setMarkers={props.setMarkers} />
+      <Sidebar />
       <Map
         center={props.mapState.position}
         zoom={props.mapState.zoom}

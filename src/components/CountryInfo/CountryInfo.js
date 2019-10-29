@@ -1,33 +1,46 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { findCountryById } from "../../helpers/helpers";
 import classes from "./CountryInfo.module.css";
 const CountryInfo = props => {
-  let markerData;
-  if (props.markerId !== null) {
-    findCountryById(props.markerId).then(doc => {
-      markerData = doc.data();
-    })
-    .then(() => console.log(markerData));
-  }
+  const [isLoading, setIsLoading] = useState(true);
+  const [markerData, setMarkerData] = useState(null);
 
+  useEffect(() => {
+    const getMarkerData = async () => {
+      findCountryById(props.countryRef).then(doc => {
+        setMarkerData(doc.data());
+        setIsLoading(false);
+      });
+    };
+    if (props.countryRef !== null) {
+      setIsLoading(true);
+      getMarkerData();
+    }
+  }, [props.countryRef]);
   return (
     <div className={classes.InfoContainer}>
-      {/* <h3>{props.data.name.common}</h3>
-      <p>
-        <strong>Capital</strong>: {props.data.capital}
-      </p>
-      <div className={classes.RegionInfo}>
-        <p>
-          <strong>Region</strong>: {props.data.region}
-        </p>
-        <p>
-          <strong>Subregion</strong>: {props.data.subregion}
-        </p>
-      </div>
-      <p>
-        <strong>Description</strong>:
-      </p>
-      <p>{props.data.desc}</p> */}
+      {isLoading ? (
+        <h1>Loading...</h1>
+      ) : (
+        <div>
+          <h3>{markerData.name.common}</h3>
+          <p>
+            <strong>Capital</strong>: {markerData.capital}
+          </p>
+          <div className={classes.RegionInfo}>
+            <p>
+              <strong>Region</strong>: {markerData.region}
+            </p>
+            <p>
+              <strong>Subregion</strong>: {markerData.subregion}
+            </p>
+          </div>
+          <p>
+            <strong>Description</strong>:
+          </p>
+          <p>{markerData.desc}</p>
+        </div>
+      )}
     </div>
   );
 };

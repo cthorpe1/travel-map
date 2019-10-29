@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { SET_ACTIVE_MARKER } from "../../../actions/constants/action-types";
+import { SET_ACTIVE_MARKER } from "../../actions/constants/action-types";
 import { Marker } from "react-leaflet";
 import * as firebase from "firebase/app";
 import "firebase/firebase-firestore";
-import { findCountryByCoords } from "../../../helpers/helpers";
-import LocationIcon from "../../../components/LocationIcon/LocationIcon";
+import { findCountryByCoords } from "../../helpers/helpers";
+import LocationIcon from "../../components/LocationIcon/LocationIcon";
 
 const useFirestoreQuery = ref => {
   const [docState, setDocState] = useState({
@@ -28,7 +28,7 @@ const MarkerList = props => {
   const ref = firebase.firestore().collection("markers");
   const { isLoading, data } = useFirestoreQuery(ref);
 
-  const handleMarkerClick = (e, markerId) => {
+  const handleMarkerClick = (e, countryRef) => {
     const position = Object.values(e.latlng);
     let foundCountry;
     findCountryByCoords(position)
@@ -44,7 +44,7 @@ const MarkerList = props => {
             [foundCountry.bounds[3], foundCountry.bounds[2]]
           ]);
         }
-        props.setActiveMarker(markerId);
+        props.setActiveMarker(countryRef);
       });
   };
 
@@ -61,7 +61,7 @@ const MarkerList = props => {
                 key={i}
                 position={marker.coords}
                 icon={LocationIcon}
-                onClick={e => handleMarkerClick(e, marker.id)}
+                onClick={e => handleMarkerClick(e, marker.countryRef)}
               />
             );
           })}
