@@ -21,8 +21,18 @@ export async function addMarkerToDB(marker) {
     if (snap.empty) {
       return firebase
         .firestore()
-        .collection("markers")
-        .add(marker);
+        .collection("countries")
+        .where("latlng", "==", Object.values(marker.coords))
+        .get()
+        .then(snap => {
+          if (!snap.empty) {
+            marker.countryRef = snap.docs[0].id;
+            return firebase
+              .firestore()
+              .collection("markers")
+              .add(marker);
+          }
+        });
     } else {
       return "You already have a marker there";
     }

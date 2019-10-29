@@ -8,7 +8,6 @@ const Login = () => {
   const handleLogin = event => {
     event.preventDefault();
     const { email, password } = event.target.elements;
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
     firebase.auth().signInWithEmailAndPassword(email.value, password.value);
   };
 

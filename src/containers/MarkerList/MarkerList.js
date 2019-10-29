@@ -33,7 +33,7 @@ const MarkerList = props => {
     let foundCountry;
     findCountryByCoords(position)
       .then(snap => {
-        snap.forEach(doc => (foundCountry = doc.data()));
+        foundCountry = snap.docs[0].data();
       })
       .then(() => {
         if (foundCountry.bounds.length === 0) {
@@ -55,7 +55,6 @@ const MarkerList = props => {
         <ul>
           {data.docs.map((doc, i) => {
             let marker = doc.data();
-            marker.id = doc.id;
             return (
               <Marker
                 key={i}
