@@ -6,7 +6,8 @@ REFACTOR FOR REDUX:
 [x] Move countries.json into firestore
 [x] Convert Sidedrawer to redux. move logic and props for side drawer out of Map
 [x] When createTrip, store reference to country in marker db entry
-[]  On login, fetch markers and store in markerState. Then populate Markerlist and AllTrips components with markers from redux
+[x]  On login, fetch markers and store in markerState. Then populate Markerlist and AllTrips components with markers from redux
+[]  Create country-info reducer? Dispatch action on marker click to retrieve country info and populate??
 [] Redo authentication
 
 [x] User sees Map

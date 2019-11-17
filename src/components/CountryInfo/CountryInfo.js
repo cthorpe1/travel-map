@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { findCountryById } from "../../helpers/helpers";
+import { findCountryById } from "../../helpers/countryHelpers";
 import classes from "./CountryInfo.module.css";
 const CountryInfo = props => {
   const [isLoading, setIsLoading] = useState(true);
   const [markerData, setMarkerData] = useState(null);
-
   useEffect(() => {
     const getMarkerData = async () => {
       findCountryById(props.countryRef).then(doc => {

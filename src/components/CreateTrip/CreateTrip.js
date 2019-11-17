@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { addMarkerToDB, findCountryByName } from "../../helpers/helpers";
+import { addMarkerToDB } from "../../helpers/markerHelpers";
+import { findCountryByName } from "../../helpers/countryHelpers";
 import countries from "../../countries.json";
 import classes from "./CreateTrip.module.css";
 const CreateTrip = () => {

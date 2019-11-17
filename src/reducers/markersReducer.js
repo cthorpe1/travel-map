@@ -1,8 +1,12 @@
-import { SET_ACTIVE_MARKER } from "../actions/constants/action-types";
+import {
+  SET_ACTIVE_MARKER,
+  LOAD_MARKERS
+} from "../actions/constants/action-types";
 
 export default function markerReducer(
   state = {
-    activeMarker: null
+    activeMarker: null,
+    markers: null
   },
   action
 ) {
@@ -11,6 +15,13 @@ export default function markerReducer(
       state = {
         ...state,
         activeMarker: action.payload
+      };
+      break;
+
+    case LOAD_MARKERS:
+      state = {
+        ...state,
+        markers: action.payload
       };
       break;
     default:

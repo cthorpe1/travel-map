@@ -1,32 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { SET_ACTIVE_MARKER } from "../../actions/constants/action-types";
+import { setActiveMarker, loadMarkers } from "../../actions/index";
 import { Marker } from "react-leaflet";
-import * as firebase from "firebase/app";
-import "firebase/firebase-firestore";
-import { findCountryByCoords } from "../../helpers/helpers";
+import { findCountryByCoords } from "../../helpers/countryHelpers";
 import LocationIcon from "../../components/LocationIcon/LocationIcon";
 
-const useFirestoreQuery = ref => {
-  const [docState, setDocState] = useState({
-    isLoading: true,
-    data: null
-  });
-
-  useEffect(() => {
-    return ref.onSnapshot(docs => {
-      setDocState({
-        isLoading: false,
-        data: docs
-      });
-    });
-  }, []);
-  return docState;
-};
-
 const MarkerList = props => {
-  const ref = firebase.firestore().collection("markers");
-  const { isLoading, data } = useFirestoreQuery(ref);
+  useEffect(() => {
+    const loadMarkers = async () => {
+      props.loadMarkers();
+    };
+    loadMarkers();
+  }, [props.markers]);
 
   const handleMarkerClick = (e, countryRef) => {
     const position = Object.values(e.latlng);
@@ -44,51 +29,44 @@ const MarkerList = props => {
             [foundCountry.bounds[3], foundCountry.bounds[2]]
           ]);
         }
-        props.setActiveMarker(countryRef);
       });
+    props.setActiveMarker(countryRef);
   };
 
   return (
     <>
-      {isLoading && "<Loading />"}
-      {data && (
-        <ul>
-          {data.docs.map((doc, i) => {
-            let marker = doc.data();
-            return (
-              <Marker
-                key={i}
-                position={marker.coords}
-                icon={LocationIcon}
-                onClick={e => handleMarkerClick(e, marker.countryRef)}
-              />
-            );
-          })}
-        </ul>
-      )}
+      <ul>
+        {props.markers && props.markers.map((marker, i) => {
+          return (
+            <Marker
+              key={i}
+              position={marker.coords}
+              icon={LocationIcon}
+              onClick={e => handleMarkerClick(e, marker.countryRef)}
+            />
+          );
+        })}
+      </ul>
     </>
   );
 };
 
 const mapStateToProps = state => {
   return {
-    map: state.mapReducer.map
+    map: state.mapReducer.map,
+    markers: state.markersReducer.markers
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    // TODO : Will need to correctly set markerID from Firebase
     setActiveMarker: markerId => {
-      dispatch({
-        type: SET_ACTIVE_MARKER,
-        payload: markerId
-      });
+      dispatch(setActiveMarker(markerId));
+    },
+    loadMarkers: () => {
+      dispatch(loadMarkers());
     }
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MarkerList);
+export default connect(mapStateToProps, mapDispatchToProps)(MarkerList);

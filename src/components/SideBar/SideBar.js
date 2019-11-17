@@ -8,6 +8,7 @@ import {
 import { Sidebar, Tab } from "react-leaflet-sidebarv2";
 import CountryInfo from "../CountryInfo/CountryInfo";
 import CreateTrip from "../CreateTrip/CreateTrip";
+import AllTripsContainer from "../../containers/AllTripsContainer/AllTripsContainer";
 const SideBar = props => {
   const onClose = () => {
     resetZoomOnSidebarClose();
@@ -22,10 +23,10 @@ const SideBar = props => {
   };
 
   useEffect(() => {
-    if (props.activeMarker) {
+    if (props.markerState.activeMarker && props.sidebarState.isCollapsed) {
       props.openSidebar("activeMarker");
     }
-  }, [props.activeMarker]);
+  }, [props.markerState.activeMarker]);
   return (
     <Sidebar
       id="sidebar"
@@ -36,11 +37,13 @@ const SideBar = props => {
       closeIcon="fa fa-times"
       position="right"
     >
-      <Tab id="home" header="Travel Map Menu" icon="fa fa-home">
-        {/* //List All Trips */}
+      <Tab id="home" header="My Trips" icon="fa fa-home">
+        {props.markerState.markers && <AllTripsContainer trips={props.markerState.markers}/>}
       </Tab>
       <Tab id="activeMarker" header="Current Trip" icon="fa fa-map">
-        <CountryInfo countryRef={props.activeMarker} />
+        {props.markerState.activeMarker === null ? null : (
+          <CountryInfo countryRef={props.markerState.activeMarker} />
+        )}
       </Tab>
       <Tab id="addMarker" header="Drop Pin" icon="fa fa-plus">
         <CreateTrip />
@@ -52,7 +55,7 @@ const SideBar = props => {
 const mapStateToProps = state => {
   return {
     sidebarState: state.sidebarReducer,
-    activeMarker: state.markersReducer.activeMarker,
+    markerState: state.markersReducer,
     mapState: state.mapReducer
   };
 };
@@ -71,7 +74,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(SideBar);
+export default connect(mapStateToProps, mapDispatchToProps)(SideBar);
