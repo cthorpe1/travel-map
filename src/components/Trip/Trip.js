@@ -1,23 +1,14 @@
 import React from "react";
-import { Card, CardImg, CardBody, CardTitle } from "reactstrap";
-import image from "../../assets/images/locationIcon.svg";
+import image from "../../assets/images/default-trip.jpg";
 import classes from "./Trip.module.css";
 const Trip = props => {
   return (
-    <>
-      <Card className={classes.Trip}>
-        <CardImg
-          top
-          width="100%"
-          height="50"
-          src={image}
-          alt="No Image Uploaded"
-        />
-        <CardBody>
-          <CardTitle>{props.details}</CardTitle>
-        </CardBody>
-      </Card>
-    </>
+    <div className={classes.Trip}>
+      <div className={classes.PhotoContainer}>
+        <img src={image} alt="Nothing Uploaded" />
+      </div>
+      <h4>{props.details}</h4>
+    </div>
   );
 };
 

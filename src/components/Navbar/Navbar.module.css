@@ -1,0 +1,16 @@
+.Nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Logo {
+    padding: 10px;
+}
+
+.Link {
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    font-size: 1.2rem;
+}

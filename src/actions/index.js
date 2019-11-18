@@ -26,7 +26,6 @@ export function closeSidebar() {
 
 //MARKER ACTIONS
 export function setActiveMarker(markerId) {
-  console.log("get active marker");
   return {
     type: constants.SET_ACTIVE_MARKER,
     payload: markerId

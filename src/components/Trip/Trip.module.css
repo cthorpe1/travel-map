@@ -1,4 +1,14 @@
 .Trip {
-    padding-top: 12px;
-    height: 120px;
+    display: flex;
+    flex-direction: column;
+}
+
+.PhotoContainer img {
+    max-width: 90%;
+    height: auto;
+}
+
+h4 {
+    padding: 0;
+    margin-top: 0;
 }

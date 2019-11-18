@@ -1,7 +1,7 @@
 .AllTripsContainer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    margin-top: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 2px;
+    margin-top: 12px;
     text-align: center;
 }

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { addMarkerToDB } from "../../helpers/markerHelpers";
 import { findCountryByName } from "../../helpers/countryHelpers";
 import countries from "../../countries.json";
@@ -29,26 +28,19 @@ const CreateTrip = () => {
   };
   return (
     <div className={classes.FormContainer}>
-      <Form onSubmit={addCountry}>
-        <FormGroup>
-          <Label for="exampleSelect">Select A Country</Label>
-          <Input
-            type="select"
-            name="select"
-            value={selectedCountry}
-            onChange={handleChange}
-          >
-            {countries.map((country, i) => {
-              return (
-                <option key={i} value={country.name.common}>
-                  {country.name.common}
-                </option>
-              );
-            })}
-          </Input>
-        </FormGroup>
-        <Button>Submit</Button>
-      </Form>
+      <form onSubmit={addCountry}>
+        <label htmlFor="exampleSelect">Select A Country</label>
+        <select value={selectedCountry} onChange={handleChange}>
+          {countries.map((country, i) => {
+            return (
+              <option key={i} value={country.name.common}>
+                {country.name.common}
+              </option>
+            );
+          })}
+        </select>
+        <button>Submit</button>
+      </form>
     </div>
   );
 };

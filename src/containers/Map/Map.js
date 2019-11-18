@@ -4,12 +4,11 @@ import { initMap } from "../../actions/index";
 import { Map, TileLayer } from "react-leaflet";
 import Sidebar from "../../components/SideBar/SideBar";
 import MarkerList from "../MarkerList/MarkerList";
+import { findCountryById } from "../../helpers/countryHelpers";
 import classes from "./Map.module.css";
 
 const MapContainer = props => {
-  const MAPBOX_URL = `https://api.mapbox.com/styles/v1/cthorpe4/ck18dwcl84w1l1dqturfu8dfw/tiles/256/{z}/{x}/{y}?access_token=${
-    process.env.REACT_APP_MAPBOX_TOKEN
-  }`;
+  const MAPBOX_URL = `https://api.mapbox.com/styles/v1/cthorpe4/ck18dwcl84w1l1dqturfu8dfw/tiles/256/{z}/{x}/{y}?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`;
 
   let mapInstance;
 
@@ -18,6 +17,26 @@ const MapContainer = props => {
     props.initMap(mapInstance);
   }, []);
 
+  //Effect to fly to the last clicked marker
+  useEffect(() => {
+    let foundCountry;
+    if (props.activeMarker !== null) {
+      findCountryById(props.activeMarker)
+        .then(doc => {
+          foundCountry = doc.data();
+        })
+        .then(() => {
+          if (foundCountry.bounds.length === 0) {
+            props.mapState.map.flyTo(foundCountry.latlng, 7);
+          } else {
+            props.mapState.map.flyToBounds([
+              [foundCountry.bounds[1], foundCountry.bounds[0]],
+              [foundCountry.bounds[3], foundCountry.bounds[2]]
+            ]);
+          }
+        });
+    }
+  }, [props.activeMarker]);
   return (
     <div className={classes.MapContainer}>
       <Sidebar />
@@ -43,7 +62,8 @@ const MapContainer = props => {
 
 const mapStateToProps = state => {
   return {
-    mapState: state.mapReducer
+    mapState: state.mapReducer,
+    activeMarker: state.markersReducer.activeMarker
   };
 };
 
@@ -55,7 +75,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MapContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(MapContainer);
