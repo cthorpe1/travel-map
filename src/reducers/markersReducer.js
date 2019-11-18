@@ -19,6 +19,7 @@ export default function markerReducer(
       break;
 
     case LOAD_MARKERS:
+      console.log("Fetching Markers...");
       state = {
         ...state,
         markers: action.payload
