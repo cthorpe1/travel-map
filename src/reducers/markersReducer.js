@@ -6,7 +6,7 @@ import {
 export default function markerReducer(
   state = {
     activeMarker: null,
-    markers: null
+    markers: null,
   },
   action
 ) {
@@ -22,7 +22,7 @@ export default function markerReducer(
       console.log("Fetching Markers...");
       state = {
         ...state,
-        markers: action.payload
+        markers: action.payload,
       };
       break;
     default:

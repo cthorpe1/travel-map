@@ -10,7 +10,7 @@ const MarkerList = props => {
       props.loadMarkers();
     };
     loadMarkers();
-  }, [props.markers]);
+  }, []);
 
   const handleMarkerClick = (e, countryRef) => {
     props.setActiveMarker(countryRef);
