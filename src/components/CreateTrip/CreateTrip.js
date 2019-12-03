@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { addMarkerToDB } from "../../helpers/markerHelpers";
 import { findCountryByName } from "../../helpers/countryHelpers";
+import { connect } from "react-redux";
+import { loadMarkers } from "../../actions/index";
 import countries from "../../countries.json";
 import classes from "./CreateTrip.module.css";
-const CreateTrip = () => {
+const CreateTrip = (props) => {
   const [selectedCountry, setSelectedCountry] = useState(
     countries[0].name.common
   );
@@ -19,6 +21,8 @@ const CreateTrip = () => {
           name: countryToAdd.name.common,
           coords: { lat: countryToAdd.latlng[0], lng: countryToAdd.latlng[1] },
           countryRef: snap.docs[0].id
+        }).then(() => {
+          props.loadMarkers();
         });
       }
     });
@@ -45,4 +49,17 @@ const CreateTrip = () => {
   );
 };
 
-export default CreateTrip;
+const mapStateToProps = state => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadMarkers: () => {
+      dispatch(loadMarkers());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateTrip);
+

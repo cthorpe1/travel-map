@@ -8,7 +8,7 @@ const Trip = props => {
   return (
     <div className={classes.Trip} onClick={() => handleTripClick()}>
       <div className={classes.PhotoContainer}>
-        <img src={image} alt="Trip Photo" />
+        <img src={image} alt="not uploaded" />
       </div>
       <h4>{props.details.name}</h4>
     </div>
