@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { setActiveMarker } from "../../actions/index";
 import Trip from "../../components/Trip/Trip";
-import classes from "./AllTripsContainer.module.css";
+import classes from "./AllTripsGrid.module.css";
 const AllTripsContainer = props => {
   return (
     <div className={classes.AllTripsContainer}>

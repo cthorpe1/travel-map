@@ -9,6 +9,11 @@ REFACTOR FOR REDUX:
 [x]  On login, fetch markers and store in markerState. Then populate Markerlist and AllTrips components with markers from redux
 [x]  Dispatch action on marker click to retrieve country info and populate??
 [] Redo authentication
+[x] Create new grid container for user's containers
+[] Create new reducer for user's containers
+[] Hook new reducer up into Redux and add relevent state
+[] 
+
 
 [x] User sees Map
 [x] Toggleable side drawer with dynamic content
@@ -18,7 +23,7 @@ REFACTOR FOR REDUX:
 [x] Zooming to a country opens side drawer
 [x] Store markers in DB
 [x] Can view page listing all Markers that have been dropped
-[] Clicking on a listing on Marker page displays details of that Marker
+[] Clicking on a listing on Markers page displays details of that Marker
 [] CRUD functionality for Marker views (delete, edit)
 [] City specific markers are shown
 [x] Need button in sidebar to add city marker

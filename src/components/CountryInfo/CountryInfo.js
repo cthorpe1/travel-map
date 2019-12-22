@@ -38,6 +38,14 @@ const CountryInfo = props => {
             <strong>Description</strong>:
           </p>
           <p>{markerData.desc}</p>
+          <div className={classes.Gallery}>
+            <p>
+              <strong>Your Containers:</strong>
+              <div className={classes.UserContainersGrid}>
+
+              </div>
+            </p>
+          </div>
         </div>
       )}
     </div>

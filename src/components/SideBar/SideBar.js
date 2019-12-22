@@ -8,7 +8,7 @@ import {
 import { Sidebar, Tab } from "react-leaflet-sidebarv2";
 import CountryInfo from "../CountryInfo/CountryInfo";
 import CreateTrip from "../CreateTrip/CreateTrip";
-import AllTripsContainer from "../../containers/AllTripsContainer/AllTripsContainer";
+import AllTripsGrid from "../../containers/AllTripsGrid/AllTripsGrid";
 const SideBar = props => {
   const onClose = () => {
     resetZoomOnSidebarClose();
@@ -38,7 +38,7 @@ const SideBar = props => {
       position="right"
     >
       <Tab id="home" header="My Trips" icon="fa fa-home">
-        {props.markerState.markers && <AllTripsContainer trips={props.markerState.markers}/>}
+        {props.markerState.markers && <AllTripsGrid trips={props.markerState.markers}/>}
       </Tab>
       <Tab id="activeMarker" header="Current Trip" icon="fa fa-map">
         {props.markerState.activeMarker === null ? null : (
